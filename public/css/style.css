@@ -1281,3 +1281,82 @@ body {
   font-size: 0.85rem !important;
   white-space: nowrap !important;
 }
+/* ============================================================
+   ضبط شريط الماركات ليكون في سطر واحد وبارتفاع مناسب
+   ============================================================ */
+
+.brand-selector {
+  padding: 8px 0 !important;
+}
+
+.brand-selector .container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
+}
+
+/* جعل قائمة الماركات سطراً واحداً أفقيًا */
+.brand-buttons {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 8px !important;
+  padding: 0 4px 4px 4px !important; /* تقليل الحشو */
+  align-items: center !important;
+}
+
+/* إخفاء شريط التمرير */
+.brand-buttons::-webkit-scrollbar {
+  display: none;
+}
+.brand-buttons {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* توحيد ارتفاع الأزرار (الزر الأزرق والكبسولات) */
+.brand-buttons .btn-primary,
+.brand-buttons .brand-chip {
+  height: 32px !important; /* ارتفاع ثابت */
+  padding: 0 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap !important;
+  border-radius: 999px !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+}
+
+/* إزالة الهوامش الإضافية التي قد ترفع الارتفاع */
+.brand-chip {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #374151;
+}
+
+/* ============================================================
+   توسيط أزرار الماركات في سطر واحد
+   ============================================================ */
+
+.brand-buttons {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  justify-content: center !important; /* توسيط الأزرار في المنتصف */
+  align-items: center !important;
+  overflow-x: auto !important;
+  gap: 8px !important;
+  padding: 8px 4px !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+.brand-buttons::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* التأكد من أن الأزرار لا تنقسم لسطرين */
+.brand-buttons > * {
+  flex-shrink: 0 !important; /* منع تصغير الأزرار */
+}

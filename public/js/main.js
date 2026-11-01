@@ -283,13 +283,7 @@ function escapeHtml(s) {
 // ============================================================
 // 10) EVENT LISTENERS (header buttons)
 // ============================================================
-$('#changeBrandBtn').onclick = () => {
-  state.selectedBrand = null;
-  renderBrands();
-  applyFilters();
-  document.getElementById('brandSelector').scrollIntoView({ behavior: 'smooth' });
-  showToast('اختر ماركة من القائمة');
-};
+// تم حذف زر تغيير الماركة
 
 $('#showAllBtn').onclick = () => {
   state.selectedBrand = null;

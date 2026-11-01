@@ -895,3 +895,153 @@ body {
 .floating-whatsapp:hover {
   box-shadow: 0 10px 25px rgba(37, 211, 102, 0.7) !important;
 }
+
+/* ============================================================
+   التوافق مع الموبايل (Responsive Design) - شاشات أقل من 768px
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* 1. الشريط العلوي (Header) */
+  .header-inner {
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding: 10px 0 !important;
+  }
+  
+  .brand {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  
+  .header-actions {
+    width: 100% !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* تصغير حجم النصوص في الأزرار قليلاً لتناسب الشاشة */
+  .icon-btn, .cart-btn {
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* إخفاء النصوص الطويلة في الأزرار والاكتفاء بالأيقونات لتوفير المساحة */
+  .icon-btn span:not(.cart-badge) {
+    display: none !important; 
+  }
+  .pill-cart span:not(.cart-badge) {
+    display: inline-block !important; /* إبقاء كلمة السلة ظاهرة */
+  }
+
+  /* 2. شريط البحث */
+  #searchInput {
+    padding: 10px 40px 10px 16px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* 3. شريط الأقسام والماركات */
+  .brand-selector, .category-bar {
+    padding: 8px 0 !important;
+  }
+  .category-chip, .brand-chip {
+    padding: 6px 12px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* 4. شبكة المنتجات (عمودين على الموبايل) */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  /* 5. بطاقة المنتج */
+  .product-card {
+    border-radius: 12px !important;
+  }
+  .product-name {
+    font-size: 0.8rem !important;
+    min-height: 2.4em !important;
+  }
+  .product-price {
+    font-size: 0.95rem !important;
+  }
+  .btn-add-cart {
+    padding: 8px !important;
+    font-size: 0.8rem !important;
+  }
+  /* إخفاء زر المشاركة وزر الحذف في البطاقة على الموبايل لتوفير المساحة (تظهر داخل النافذة) */
+  .card-actions .btn-icon-small {
+    display: none !important;
+  }
+
+  /* 6. النافذة المنبثقة للمنتج */
+  .product-modal-content {
+    width: 95% !important;
+    max-height: 90vh !important;
+    padding: 15px !important;
+  }
+  .modal-content {
+    width: 95% !important;
+  }
+  .pm-image-wrap {
+    aspect-ratio: 16/9 !important; /* جعل الصورة أعرض قليلاً على الموبايل */
+  }
+  .price-large {
+    font-size: 1.3rem !important;
+  }
+
+  /* 7. صفحة السلة */
+  .cart-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .cart-item {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .cart-item-img {
+    width: 100% !important;
+    height: 150px !important;
+  }
+  .cart-item-controls {
+    width: 100% !important;
+    justify-content: space-between !important;
+    margin-top: 10px !important;
+  }
+
+  /* 8. لوحة الإدارة */
+  .order-item-row {
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+    padding: 15px 0 !important;
+    border-bottom: 1px solid #eee;
+  }
+  .order-item-row span {
+    display: block !important;
+  }
+  .order-item-row input {
+    width: 100% !important;
+    margin-top: 5px !important;
+  }
+  .order-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  /* 9. زر الواتساب العائم (أصغر قليلاً) */
+  .floating-whatsapp {
+    width: 50px !important;
+    height: 50px !important;
+    bottom: 15px !important;
+    left: 15px !important;
+  }
+  .floating-whatsapp svg {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  /* إخفاء تلميح الواتساب على الموبايل (لأنه لا يوجد ماوس) */
+  .wa-tooltip {
+    display: none !important;
+  }
+}

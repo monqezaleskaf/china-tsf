@@ -29,7 +29,7 @@
     // ---------- 3) تحليل رأس الجدول ----------
     const headers = parseCSVLine(lines[0].trim()).map(h => h.trim().toLowerCase());
     
-    // البحث عن الأعمدة الأساسية
+    // البحث عن الأعمدة
     const idIdx = headers.indexOf('unique_id');
     const stockIdx = headers.indexOf('stock');
     const nameIdx = headers.indexOf('name');
@@ -37,26 +37,28 @@
     const brandIdx = headers.indexOf('brand');
     const catIdx = headers.indexOf('category');
 
-    if (idIdx === -1 || stockIdx === -1 || nameIdx === -1) {
-      return jsonError('الملف يجب أن يحتوي على الأقل على: unique_id, name, stock', 400);
+    // يجب أن يحتوي الملف على الأقل على unique_id (الرقم الفريد) والاسم
+    if (idIdx === -1 || nameIdx === -1) {
+      return jsonError('الملف يجب أن يحتوي على الأقل على: unique_id, name', 400);
     }
 
     // ---------- 4) معالجة الصفوف ----------
     let added = 0;
     let updated = 0;
-    const errors = [];
 
     for (let i = 1; i < lines.length; i++) {
       const cols = parseCSVLine(lines[i].trim());
       if (cols.length <= idIdx) continue;
 
       const id = parseInt(cols[idIdx]);
-      const stock = parseInt(cols[stockIdx]);
       const name = cols[nameIdx] ? cols[nameIdx].trim() : '';
 
-      if (isNaN(id) || isNaN(stock) || !name) continue;
+      // إذا كان الـ id أو الاسم فارغاً، تخطى السطر
+      if (isNaN(id) || !name) continue;
 
-      const price = priceIdx !== -1 && cols[priceIdx] ? parseFloat(cols[priceIdx]) || 0 : 0;
+      // استخراج باقي القيم (إذا كانت الأعمدة موجودة)
+      const stock = stockIdx !== -1 && cols[stockIdx] ? parseInt(cols[stockIdx]) : 0;
+      const price = priceIdx !== -1 && cols[priceIdx] ? parseFloat(cols[priceIdx]) : 0;
       const brand = brandIdx !== -1 && cols[brandIdx] ? cols[brandIdx].trim() : 'أخرى';
       const category = catIdx !== -1 && cols[catIdx] ? cols[catIdx].trim() : 'عام';
 
@@ -64,13 +66,13 @@
       const existing = await env.DB.prepare('SELECT id FROM products WHERE id = ?').bind(id).first();
 
       if (existing) {
-        // تحديث
+        // تحديث جميع الحقول
         await env.DB.prepare(
-          'UPDATE products SET stock = ?, price = ?, name = ?, brand = ?, category = ? WHERE id = ?'
-        ).bind(stock, price, name, brand, category, id).run();
+          'UPDATE products SET name = ?, brand = ?, category = ?, price = ?, stock = ? WHERE id = ?'
+        ).bind(name, brand, category, price, stock, id).run();
         updated++;
       } else {
-        // إضافة جديد
+        // إضافة منتج جديد
         await env.DB.prepare(
           'INSERT INTO products (id, name, brand, category, price, stock) VALUES (?, ?, ?, ?, ?, ?)'
         ).bind(id, name, brand, category, price, stock).run();

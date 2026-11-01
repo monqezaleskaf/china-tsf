@@ -302,13 +302,7 @@ function escapeHtml(s) {
 // ============================================================
 // تم حذف زر تغيير الماركة
 
-$('#showAllBtn').onclick = () => {
-  state.selectedBrand = null;
-  state.selectedCategory = null;
-  renderBrands();
-  renderCategories();
-  applyFilters();
-};
+// تم حذف الكود القديم (الزر أصبح يُولد ديناميكياً)
 
 $('#shamCashBtn').onclick = () => shamCashModal.classList.remove('hidden');
 $('#closeShamCash').onclick = () => shamCashModal.classList.add('hidden');

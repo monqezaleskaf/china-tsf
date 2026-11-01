@@ -1,0 +1,307 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>السلة | متجر الصين</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .cart-page { padding: 30px 0 60px; }
+    .cart-layout { display: grid; grid-template-columns: 1fr 380px; gap: 24px; }
+    @media (max-width: 900px) { .cart-layout { grid-template-columns: 1fr; } }
+
+    .cart-items { display: flex; flex-direction: column; gap: 12px; }
+    .cart-item {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 12px;
+      box-shadow: var(--shadow);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .cart-item-img {
+      width: 80px; height: 80px; border-radius: var(--radius-sm);
+      background: #f9fafb; display: flex; align-items: center; justify-content: center;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .cart-item-img img { width: 100%; height: 100%; object-fit: contain; }
+    .cart-item-info { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .cart-item-name { font-weight: 700; font-size: 0.95rem; }
+    .cart-item-price { color: var(--primary); font-weight: 800; font-size: 1rem; }
+    .cart-item-controls { display: flex; align-items: center; gap: 6px; }
+    .cart-item-remove {
+      background: transparent; color: var(--danger);
+      font-size: 1.2rem; padding: 4px 8px; border-radius: var(--radius-sm);
+    }
+    .cart-item-remove:hover { background: #fee2e2; }
+
+    .order-summary {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 100px;
+    }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .summary-row.total {
+      border-top: 2px solid var(--border);
+      padding-top: 12px;
+      margin-top: 12px;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary);
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-group label { display: block; margin-bottom: 6px; font-weight: 700; font-size: 0.9rem; }
+    .form-group input, .form-group textarea {
+      width: 100%; padding: 10px; border: 2px solid var(--border);
+      border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--primary);
+    }
+    .btn-submit {
+      width: 100%; padding: 14px; font-size: 1.05rem;
+      background: var(--primary); color: #fff;
+      border-radius: var(--radius-sm); font-weight: 800;
+      transition: var(--transition);
+    }
+    .btn-submit:hover { background: var(--primary-dark); }
+    .btn-submit:disabled { background: var(--text-muted); cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand">
+        <img src="/images/logo.png" alt="شعار" class="brand-logo">
+        <div class="brand-text">
+          <span class="ar">متجر الصين</span>
+          <span class="en">China Store — TSF</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a href="/" class="icon-btn" style="background: #fff; color: #0040C0; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-weight: 700; padding: 8px 16px; border-radius: 999px;">🏠 <span>الرئيسية</span></a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container cart-page">
+    <h1 style="color: var(--primary); margin-bottom: 20px; font-size: 1.6rem;">🛒 سلة المشتريات</h1>
+
+    <div id="emptyCart" class="empty-state hidden">
+      <div class="emoji">🛒</div>
+      <p>السلة فارغة حالياً</p>
+      <a href="/" class="btn-primary" style="display:inline-block; margin-top:15px;">تسوق الآن</a>
+    </div>
+
+    <div id="cartContent" class="cart-layout hidden">
+      <div class="cart-items" id="cartItems"></div>
+
+      <div class="order-summary">
+        <h2 style="margin-bottom: 16px; font-size: 1.2rem; color: var(--primary);">تفاصيل الطلب</h2>
+        <div class="summary-row">
+          <span>عدد المنتجات:</span>
+          <strong id="summaryCount">0</strong>
+        </div>
+        <div class="summary-row total">
+          <span>المجموع:</span>
+          <span id="summaryTotal">$0.00</span>
+        </div>
+
+        <hr style="margin: 16px 0; border: none; border-top: 1px solid var(--border);">
+
+        <form id="orderForm">
+          <div class="form-group">
+            <label>الاسم الكامل *</label>
+            <input type="text" id="customerName" required minlength="2" placeholder="مثال: أحمد محمد">
+          </div>
+          <div class="form-group">
+            <label>رقم الهاتف *</label>
+            <input type="tel" id="customerPhone" required pattern="[0-9+ ]{7,15}" placeholder="9639xxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label>العنوان (اختياري)</label>
+            <textarea id="customerAddress" rows="2" placeholder="المدينة، الحي، الشارع"></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">تأكيد الطلب</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const CART_KEY = 'tsf_cart';
+    const loadCart = () => JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    const saveCart = (c) => localStorage.setItem(CART_KEY, JSON.stringify(c));
+
+    const cartItemsEl = document.getElementById('cartItems');
+    const emptyCartEl = document.getElementById('emptyCart');
+    const cartContentEl = document.getElementById('cartContent');
+    const summaryCount = document.getElementById('summaryCount');
+    const summaryTotal = document.getElementById('summaryTotal');
+
+    function renderCart() {
+      const cart = loadCart();
+      if (cart.length === 0) {
+        emptyCartEl.classList.remove('hidden');
+        cartContentEl.classList.add('hidden');
+        return;
+      }
+      emptyCartEl.classList.add('hidden');
+      cartContentEl.classList.remove('hidden');
+
+      cartItemsEl.innerHTML = '';
+      let total = 0;
+      let count = 0;
+
+      cart.forEach(item => {
+        total += item.price * item.quantity;
+        count += item.quantity;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <div class="cart-item-img">
+            <img src="/images/products/${item.id}.png" 
+                 onerror="if(!this.dataset.fb){this.dataset.fb='1';this.src='/images/products/${item.id}.jpg';}else{this.outerHTML='🛍️';}">
+          </div>
+          <div class="cart-item-info">
+            <div class="cart-item-name">${escapeHtml(item.name)}</div>
+            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+            <div class="cart-item-controls">
+              <button class="qty-btn" data-act="minus">−</button>
+              <span style="min-width:30px; text-align:center; font-weight:700;">${item.quantity}</span>
+              <button class="qty-btn" data-act="plus">+</button>
+              <span style="color:var(--text-muted); font-size:0.8rem; margin-right:auto;">
+                (المخزون: ${item.stock})
+              </span>
+            </div>
+          </div>
+          <button class="cart-item-remove" title="حذف">✕</button>
+        `;
+
+        div.querySelector('[data-act="minus"]').onclick = () => {
+          const c = loadCart();
+          const it = c.find(i => i.id === item.id);
+          if (it) { it.quantity = Math.max(1, it.quantity - 1); saveCart(c); renderCart(); }
+        };
+        div.querySelector('[data-act="plus"]').onclick = () => {
+          const c = loadCart();
+          const it = c.find(i => i.id === item.id);
+          if (it) { it.quantity = Math.min(it.stock, it.quantity + 1); saveCart(c); renderCart(); }
+        };
+        div.querySelector('.cart-item-remove').onclick = () => {
+          const c = loadCart().filter(i => i.id !== item.id);
+          saveCart(c);
+          renderCart();
+        };
+
+        cartItemsEl.appendChild(div);
+      });
+
+      summaryCount.textContent = count;
+      summaryTotal.textContent = `$${total.toFixed(2)}`;
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+    }
+
+    // إرسال الطلب
+    document.getElementById('orderForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('submitBtn');
+      const cart = loadCart();
+
+      if (cart.length === 0) {
+        alert('السلة فارغة');
+        return;
+      }
+
+      const name = document.getElementById('customerName').value.trim();
+      const phone = document.getElementById('customerPhone').value.trim();
+      const address = document.getElementById('customerAddress').value.trim();
+
+      if (!name || !phone) {
+        alert('يرجى إدخال الاسم ورقم الهاتف');
+        return;
+      }
+
+      const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+
+      const payload = {
+        customer_name: name,
+        customer_phone: phone,
+        customer_address: address,
+        total: total,
+        items: cart.map(i => ({ product_id: i.id, quantity: i.quantity, price: i.price }))
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'جاري الإرسال...';
+
+      try {
+        const res = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!data.ok) throw new Error(data.error || 'فشل الطلب');
+
+        // --- تجهيز رسالة الواتساب ---
+        const managerPhone = '963956410417'; // رقم المدير
+        let waMessage = `🧾 *فاتورة طلب جديدة* 🧾\n`;
+        waMessage += `------------------------\n`;
+        waMessage += `👤 *الاسم:* ${name}\n`;
+        waMessage += `📞 *الهاتف:* ${phone}\n`;
+        if (address) waMessage += `📍 *العنوان:* ${address}\n`;
+        waMessage += `------------------------\n`;
+        waMessage += `📦 *المنتجات:*\n`;
+
+        cart.forEach(item => {
+          const itemTotal = (item.price * item.quantity).toFixed(2);
+          waMessage += `▪️ ${item.name} (الكمية: ${item.quantity}) = $${itemTotal}\n`;
+        });
+
+        waMessage += `------------------------\n`;
+        waMessage += `💰 *الإجمالي:* $${total.toFixed(2)}\n`;
+        waMessage += `📝 *رقم الطلب:* #${data.order_id}`;
+
+        const encodedMessage = encodeURIComponent(waMessage);
+        const waUrl = `https://wa.me/${managerPhone}?text=${encodedMessage}`;
+
+        // إفراغ السلة
+        localStorage.removeItem(CART_KEY);
+
+        // إعلام المستخدم
+        alert(`✅ تم حفظ طلبك بنجاح!\nسيتم الآن تحويلك لواتساب لتأكيد الطلب وإرسال الفاتورة للمدير.`);
+
+        // فتح واتساب في نافذة جديدة
+        window.open(waUrl, '_blank');
+        
+        // العودة للصفحة الرئيسية
+        window.location.href = '/';
+      } catch (err) {
+        alert('❌ حدث خطأ: ' + err.message);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'تأكيد الطلب';
+      }
+    };
+
+    renderCart();
+  </script>
+</body>
+</html>

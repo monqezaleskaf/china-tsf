@@ -1,0 +1,897 @@
+﻿/* ============================================================
+   china-tsf — المتجر المحلي
+   الهوية البصرية: أزرق كحلي (من الشعار) + ذهبي (مميز)
+   ============================================================ */
+
+:root {
+  --primary:       #0A2472;
+  --primary-dark:  #001845;
+  --primary-light: #1E3A8A;
+  --accent:        #FFB300;
+  --accent-dark:   #E6A000;
+  --bg:            #F5F7FA;
+  --card-bg:       #FFFFFF;
+  --text:          #1A1A2E;
+  --text-muted:    #6B7280;
+  --border:        #E5E7EB;
+  --success:       #10B981;
+  --danger:        #EF4444;
+  --whatsapp:      #25D366;
+  --radius:        12px;
+  --radius-sm:     8px;
+  --shadow:        0 2px 8px rgba(10, 36, 114, 0.08);
+  --shadow-hover:  0 6px 20px rgba(10, 36, 114, 0.15);
+  --transition:    all 0.25s ease;
+}
+
+/* ---------- Reset ---------- */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, 'Cairo', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  direction: rtl;
+  min-height: 100vh;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; }
+img { max-width: 100%; display: block; }
+
+/* ---------- Utility ---------- */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+.hidden { display: none !important; }
+.text-center { text-align: center; }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.site-header {
+  background: var(--primary);
+  color: #fff;
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* الشعار + الاسم (يمين) */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  order: 1;
+}
+
+.brand-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fff;
+  padding: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.brand-text { display: flex; flex-direction: column; line-height: 1.2; }
+.brand-text .ar { font-size: 1.15rem; font-weight: 700; }
+.brand-text .en { font-size: 0.75rem; opacity: 0.85; letter-spacing: 0.5px; }
+
+/* أزرار الرأس (يسار) */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  order: 2;
+  flex-wrap: wrap;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.icon-btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-1px); }
+.icon-btn.whatsapp { background: var(--whatsapp); border-color: var(--whatsapp); }
+.icon-btn.whatsapp:hover { background: #1DAF54; }
+.icon-btn.accent { background: var(--accent); color: var(--primary-dark); border-color: var(--accent); }
+.icon-btn.accent:hover { background: var(--accent-dark); }
+
+/* ---------- Cart button ---------- */
+.cart-btn {
+  position: relative;
+  background: var(--accent);
+  color: var(--primary-dark);
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.cart-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+.cart-badge {
+  background: var(--danger);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  font-weight: 700;
+  min-width: 22px;
+  text-align: center;
+}
+
+/* ============================================================
+   MARQUEE / BRAND SELECTOR
+   ============================================================ */
+.brand-selector {
+  background: var(--card-bg);
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+}
+
+.brand-selector .container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brand-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.brand-chip {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.brand-chip:hover { border-color: var(--primary); color: var(--primary); }
+.brand-chip.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+.selector-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  transition: var(--transition);
+}
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--primary);
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  border: 2px solid var(--primary);
+  transition: var(--transition);
+}
+.btn-outline:hover { background: var(--primary); color: #fff; }
+
+/* ============================================================
+   CATEGORY FILTER BAR
+   ============================================================ */
+.category-bar {
+  background: var(--card-bg);
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 20px;
+  position: sticky;
+  top: 80px;
+  z-index: 50;
+}
+
+.category-bar .container {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.category-chip {
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.category-chip:hover { border-color: var(--primary); }
+.category-chip.active {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ============================================================
+   PRODUCT GRID
+   ============================================================ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+  padding: 20px 0 60px;
+}
+
+/* ============================================================
+   PRODUCT CARD
+   ============================================================ */
+.product-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* الرقم الفريد (يمين أعلى) */
+.product-id-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+.product-img-wrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.product-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-img-wrap img { transform: scale(1.05); }
+
+.product-placeholder {
+  font-size: 3rem;
+  opacity: 0.4;
+}
+
+.product-info {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.product-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.product-price {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.product-stock {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.product-stock.low { color: var(--danger); font-weight: 700; }
+
+/* ---------- Quantity slider ---------- */
+.qty-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.qty-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.qty-btn:hover { background: var(--primary); }
+.qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.qty-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border);
+  outline: none;
+}
+.qty-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.qty-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: 2px solid #fff;
+}
+
+.qty-value {
+  min-width: 32px;
+  text-align: center;
+  font-weight: 800;
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+
+/* ---------- Card actions ---------- */
+.card-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.btn-add-cart {
+  flex: 1;
+  background: var(--primary);
+  color: #fff;
+  padding: 9px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.85rem;
+  transition: var(--transition);
+}
+.btn-add-cart:hover { background: var(--primary-dark); }
+.btn-add-cart:disabled { background: var(--text-muted); cursor: not-allowed; }
+
+.btn-icon-small {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: #f3f4f6;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+.btn-icon-small:hover { background: var(--accent); color: var(--primary-dark); }
+.btn-icon-small.share { color: var(--whatsapp); }
+
+/* ============================================================
+   FLOATING WHATSAPP
+   ============================================================ */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--whatsapp);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.45);
+  z-index: 90;
+  transition: var(--transition);
+}
+.floating-whatsapp:hover { transform: scale(1.1); background: #1DAF54; }
+
+/* ============================================================
+   MODAL (Sham Cash QR)
+   ============================================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.modal-content h3 {
+  color: var(--primary);
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+}
+
+.modal-content img {
+  max-width: 280px;
+  margin: 0 auto 12px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  color: var(--text);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { background: var(--danger); color: #fff; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+.empty-state .emoji { font-size: 3rem; margin-bottom: 12px; }
+
+/* ============================================================
+   LOADING
+   ============================================================ */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .header-inner { justify-content: center; }
+  .brand { order: 1; }
+  .header-actions { order: 2; justify-content: center; width: 100%; }
+  .brand-logo { width: 44px; height: 44px; }
+  .brand-text .ar { font-size: 1rem; }
+  .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .category-bar { top: 0; position: relative; }
+  .floating-whatsapp { width: 52px; height: 52px; font-size: 1.5rem; bottom: 16px; left: 16px; }
+}
+
+@media (max-width: 480px) {
+  .icon-btn span { display: none; }
+  .icon-btn { padding: 8px 10px; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .product-name { font-size: 0.8rem; }
+}
+
+
+/* ============================================================
+   تلميح زر الواتساب (Tooltip) - إضافة آمنة
+   ============================================================ */
+.wa-tooltip {
+  position: absolute;
+  left: 75px;
+  top: 50%;
+  transform: translateY(-50%) translateX(-10px);
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 1000;
+}
+
+.wa-tooltip::before {
+  content: '';
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 6px solid transparent;
+  border-right-color: #1f2937;
+}
+
+.floating-whatsapp:hover .wa-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* تأكيد وجود الزر العائم في مكانه */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  width: 60px;
+  height: 60px;
+  background-color: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.4);
+  z-index: 9999;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+/* ============================================================
+   لمسة ويندوز 11 (Fluent Design & Acrylic)
+   ============================================================ */
+
+/* 1. جعل الخلفية العامة ناعمة ومريحة */
+body {
+  background: #f3f4f6 !important; /* خلفية رمادية فاتحة جداً مثل ويندوز */
+}
+
+/* 2. الزجاجية (Acrylic) للشريط العلوي والبطاقات */
+.site-header {
+  background: rgba(255, 255, 255, 0.85) !important; /* شفافية */
+  backdrop-filter: blur(20px) !important; /* تأثير الزجاج */
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* تغيير ألوان الهيدر لتناسب الخلفية الزجاجية البيضاء */
+.brand-text .ar { color: var(--primary) !important; }
+.brand-text .en { color: #6b7280 !important; }
+
+/* 3. بطاقات المنتجات (تأثير ويندوز 11) */
+.product-card {
+  border-radius: 16px !important; /* حواف دائرية أكثر */
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+.product-card:hover {
+  transform: translateY(-5px) scale(1.01) !important;
+  box-shadow: 0 12px 24px rgba(0, 64, 192, 0.15) !important;
+  border-color: rgba(0, 64, 192, 0.1) !important;
+}
+
+/* 4. أزرار ويندوز 11 (Pills) */
+.btn-primary, .btn-outline, .cart-btn, .icon-btn, .qty-btn {
+  border-radius: 999px !important; /* أزرار كبسولة */
+  transition: all 0.2s ease !important;
+  border: none !important;
+}
+
+.btn-primary {
+  background: var(--primary) !important;
+  box-shadow: 0 2px 5px rgba(0, 64, 192, 0.2) !important;
+}
+.btn-primary:hover {
+  background: var(--primary-dark) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 10px rgba(0, 64, 192, 0.3) !important;
+}
+
+/* 5. شريط البحث (ويندوز 11) */
+#searchInput {
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02) !important;
+  padding: 12px 20px 12px 44px !important;
+}
+#searchInput:focus {
+  background: #ffffff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 4px rgba(0, 64, 192, 0.1) !important;
+}
+
+/* 6. النافذة المنبثقة (تأثير زجاجي للمحتوى) */
+.modal-content {
+  border-radius: 20px !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.3) !important; /* تعتيم أفتح */
+  backdrop-filter: blur(4px) !important; /* تعتيم زجاجي */
+}
+
+/* 7. شريط الفلترة (الأقسام) */
+.category-bar {
+  background: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+.category-chip, .brand-chip {
+  border-radius: 999px !important;
+  background: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.02) !important;
+}
+.category-chip:hover, .brand-chip:hover {
+  background: #f8fafc !important;
+  border-color: rgba(0, 64, 192, 0.2) !important;
+}
+.category-chip.active, .brand-chip.active {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 12px rgba(0, 64, 192, 0.3) !important;
+}
+
+/* 8. تحسين شريط السحب (Slider) */
+.qty-slider::-webkit-slider-thumb {
+  width: 20px !important;
+  height: 20px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2) !important;
+}
+
+/* 9. تحسين صورة المنتج */
+.product-img-wrap {
+  background: #f8fafc !important;
+  border-bottom: 1px solid rgba(0,0,0,0.03) !important;
+}
+
+/* ============================================================
+   إصلاح ألوان أزرار المشاركة (واتساب، فيسبوك، تيليجرام)
+   ============================================================ */
+
+/* زر واتساب (أخضر) */
+#shareWa {
+  background-color: #25D366 !important;
+  color: #ffffff !important;
+}
+#shareWa:hover {
+  background-color: #1DAF54 !important;
+}
+
+/* زر فيسبوك (أزرق فيسبوك) */
+#shareFb {
+  background-color: #1877F2 !important;
+  color: #ffffff !important;
+}
+#shareFb:hover {
+  background-color: #166FE5 !important;
+}
+
+/* زر تيليجرام (أزرق فاتح) */
+#shareTg {
+  background-color: #0088cc !important;
+  color: #ffffff !important;
+}
+#shareTg:hover {
+  background-color: #0077b3 !important;
+}
+
+/* زر نسخ الرابط (تصميم محايد أو شفاف) */
+#shareCopy {
+  background-color: transparent !important;
+  color: var(--primary) !important;
+  border: 2px solid var(--primary) !important;
+  box-shadow: none !important;
+}
+#shareCopy:hover {
+  background-color: rgba(0, 64, 192, 0.05) !important;
+}
+
+/* ============================================================
+   تحسين شريط الأقسام ليطابق الشريط العلوي (زجاجي وأنيق)
+   ============================================================ */
+
+.category-bar {
+  background: rgba(255, 255, 255, 0.85) !important; /* خلفية زجاجية بيضاء */
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+  padding: 12px 0 !important;
+  position: sticky !important;
+  top: 73px !important; /* ليظهر أسفل الهيدر تماماً */
+  z-index: 90 !important;
+  margin-bottom: 20px !important;
+}
+
+/* إخفاء شريط التمرير الأفقي (لجمالية أكثر) */
+.category-bar .container::-webkit-scrollbar {
+  display: none !important;
+}
+.category-bar .container {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+
+/* تحسين شكل أزرار الأقسام (الكبسولات) */
+.category-chip {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  color: #374151 !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+}
+.category-chip:hover {
+  background: #f8fafc !important;
+  border-color: var(--primary) !important;
+}
+.category-chip.active {
+  background: var(--primary) !important;
+  color: #ffffff !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 4px 10px rgba(0, 64, 192, 0.2) !important;
+}
+
+/* ============================================================
+   تعميق ظل الأزرار (3D & Depth) لجميع الصفحات
+   ============================================================ */
+
+/* 1. الأزرار العامة (الرئيسية، الإدارة، السلة) */
+.icon-btn, .btn-primary, .btn-outline, .cart-btn {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+}
+
+/* زيادة الظل عند تمرير الماوس (يبدو كأن الزر يرتفع) */
+.icon-btn:hover, .btn-primary:hover, .btn-outline:hover, .cart-btn:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 2. أزرار الماركات والأقسام */
+.brand-chip, .category-chip {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.06) !important;
+  transition: all 0.2s ease !important;
+}
+.brand-chip:hover, .category-chip:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* 3. الزر النشط (المختار) */
+.brand-chip.active, .category-chip.active {
+  box-shadow: 0 6px 15px rgba(0, 64, 192, 0.25) !important;
+}
+
+/* 4. أزرار نافذة المشاركة (لتبدو أكثر بروزاً) */
+#shareWa, #shareFb, #shareTg, #shareCopy {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+#shareWa:hover, #shareFb:hover, #shareTg:hover, #shareCopy:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 5. بطاقات المنتجات (تعميق بسيط للظل لتبدو أكثر وضوحاً) */
+.product-card {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05), 0 1px 5px rgba(0, 0, 0, 0.03) !important;
+}
+.product-card:hover {
+  box-shadow: 0 15px 35px rgba(0, 64, 192, 0.15), 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* 6. زر الواتساب العائم */
+.floating-whatsapp {
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5) !important;
+}
+.floating-whatsapp:hover {
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.7) !important;
+}

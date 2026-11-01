@@ -1176,3 +1176,55 @@ body {
     font-size: 1rem !important;
   }
 }
+
+/* ============================================================
+   الترتيب النهائي لشريط الكمية على الموبايل
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* ترتيب العناصر: (-) ثم (العدد) ثم (+) في صف واحد */
+  .qty-control {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: space-between !important; /* لتوزيع المسافات */
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 0 4px !important;
+    width: 100% !important;
+  }
+
+  /* الشريط في الأسفل يأخذ العرض كاملاً */
+  .qty-slider {
+    order: 4 !important; /* آخر عنصر */
+    flex: 1 1 100% !important;
+    width: 100% !important;
+    margin-top: 8px !important;
+  }
+
+  /* الأزرار والعدد */
+  .qty-btn {
+    order: 1 !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 0.9rem !important;
+    margin: 0 !important;
+  }
+  
+  .qty-value {
+    order: 2 !important;
+    min-width: 20px !important;
+    text-align: center !important;
+    font-size: 0.8rem !important;
+    margin: 0 !important;
+  }
+
+  /* نعدل ترتيب زر (+) ليكون بعد العدد */
+  .qty-btn[data-act="plus"] {
+    order: 3 !important;
+  }
+
+  /* إخفاء الشريط (Slider) وإظهار الأزرار فقط على الموبايل لتوفير المساحة */
+  .qty-slider {
+    display: none !important;
+  }
+}

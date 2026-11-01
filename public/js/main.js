@@ -118,6 +118,23 @@ async function fetchProducts() {
 // ============================================================
 function renderBrands() {
   brandButtons.innerHTML = '';
+  
+  // 1. إضافة زر "جميع الماركات" في البداية
+  const allBtn = document.createElement('button');
+  allBtn.className = 'btn-primary';
+  allBtn.id = 'showAllBtn';
+  allBtn.style.flexShrink = '0';
+  allBtn.innerHTML = '👀 جميع الماركات';
+  allBtn.onclick = () => {
+    state.selectedBrand = null;
+    state.selectedCategory = null;
+    renderBrands();
+    renderCategories();
+    applyFilters();
+  };
+  brandButtons.appendChild(allBtn);
+
+  // 2. إضافة باقي أزرار الماركات
   state.brands.forEach(brand => {
     const chip = document.createElement('button');
     chip.className = 'brand-chip' + (state.selectedBrand === brand ? ' active' : '');

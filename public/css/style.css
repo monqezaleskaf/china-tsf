@@ -1228,3 +1228,56 @@ body {
     display: none !important;
   }
 }
+
+/* ============================================================
+   جعل شريط الماركات في سطر واحد (أفقي)
+   ============================================================ */
+
+.brand-selector .container {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+}
+
+.selector-actions {
+  display: flex !important;
+  flex-wrap: nowrap !important; /* منع الالتفاف لسطر جديد */
+  overflow-x: auto !important; /* السماح بالسحب الأفقي */
+  gap: 8px !important;
+  padding-bottom: 5px !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  -ms-overflow-style: none;  /* إخفاء شريط التمرير */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.selector-actions::-webkit-scrollbar {
+  display: none; /* إخفاء شريط التمرير في كروم */
+}
+
+.brand-buttons {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 8px !important;
+  justify-content: flex-start !important;
+  padding-bottom: 5px !important;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.brand-buttons::-webkit-scrollbar {
+  display: none;
+}
+
+/* تصغير أزرار الماركات قليلاً لتتناسب مع السطر الواحد */
+.brand-chip {
+  padding: 6px 14px !important;
+  font-size: 0.8rem !important;
+  white-space: nowrap !important; /* منع انقسام النص */
+}
+.btn-primary, .btn-outline {
+  padding: 8px 16px !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap !important;
+}

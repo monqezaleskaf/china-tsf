@@ -420,7 +420,7 @@ function renderProductModal(p) {
   }
   // مشاركة (تفتح القائمة)
   shareBtn.onclick = () => {
-    const url = `${location.origin}/?id=${p.id}`;
+    const url = `${location.origin}/share?id=${p.id}`;
     const text = `شاهد ${p.name} على متجر الصين - شركة المستقبل الأقوى`;
     
     // تجهيز روابط المنصات

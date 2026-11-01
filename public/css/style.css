@@ -1360,3 +1360,51 @@ body {
 .brand-buttons > * {
   flex-shrink: 0 !important; /* منع تصغير الأزرار */
 }
+
+/* ============================================================
+   جعل شريط الماركات قابلاً للسحب (مثل شريط الأقسام)
+   ============================================================ */
+
+.brand-buttons {
+  display: flex !important;
+  flex-wrap: nowrap !important; /* منع الالتفاف (سطر واحد) */
+  overflow-x: auto !important; /* السماح بالسحب الأفقي */
+  justify-content: flex-start !important; /* البدء من اليمين (لأن الاتجاه RTL) */
+  gap: 8px !important;
+  padding: 8px 4px !important;
+  -ms-overflow-style: none !important; /* إخفاء شريط التمرير في IE/Edge */
+  scrollbar-width: none !important; /* إخفاء شريط التمرير في Firefox */
+}
+
+/* إخفاء شريط التمرير في كروم وسفاري */
+.brand-buttons::-webkit-scrollbar {
+  display: none !important;
+}
+
+/* منع الأزرار من الانكماش */
+.brand-buttons > * {
+  flex-shrink: 0 !important;
+}
+
+/* تحسين مظهر الأزرار (الارتفاع المناسب) */
+.brand-buttons .btn-primary,
+.brand-buttons .brand-chip {
+  height: 32px !important;
+  padding: 0 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.85rem !important;
+  white-space: nowrap !important;
+  border-radius: 999px !important;
+}
+
+/* على الموبايل، تصغير الأزرار قليلاً لتوفير المساحة */
+@media (max-width: 768px) {
+  .brand-buttons .btn-primary,
+  .brand-buttons .brand-chip {
+    height: 28px !important;
+    padding: 0 12px !important;
+    font-size: 0.75rem !important;
+  }
+}

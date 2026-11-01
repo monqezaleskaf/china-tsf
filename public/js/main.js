@@ -124,7 +124,7 @@ function renderBrands() {
   allBtn.className = 'btn-primary';
   allBtn.id = 'showAllBtn';
   allBtn.style.flexShrink = '0';
-  allBtn.innerHTML = '👀 جميع الماركات';
+  allBtn.innerHTML = 'جميع الماركات';
   allBtn.onclick = () => {
     state.selectedBrand = null;
     state.selectedCategory = null;

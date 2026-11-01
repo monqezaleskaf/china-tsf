@@ -1045,3 +1045,80 @@ body {
     display: none !important;
   }
 }
+
+/* ============================================================
+   إصلاح شريط الكمية والأزرار على الموبايل (شاشات أقل من 768px)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* تصغير أزرار (+ و -) */
+  .qty-btn {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* تصغير شريط السحب */
+  .qty-slider {
+    height: 4px !important;
+  }
+  .qty-slider::-webkit-slider-thumb {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* تصغير مساحة العرض الكلية للكمية */
+  .qty-control {
+    gap: 4px !important;
+  }
+  .qty-value {
+    font-size: 0.8rem !important;
+    min-width: 20px !important;
+  }
+
+  /* تصغير زر "أضف للسلة" ليتناسب مع العمودين */
+  .btn-add-cart {
+    padding: 6px !important;
+    font-size: 0.75rem !important;
+    border-radius: 8px !important;
+  }
+
+  /* تصغير صورة المنتج قليلاً لتوفير مساحة */
+  .product-img-wrap {
+    aspect-ratio: 1/1 !important;
+    padding: 8px !important;
+  }
+  .product-img-wrap img {
+    max-height: 90% !important;
+    max-width: 90% !important;
+    object-fit: contain !important;
+  }
+
+  /* تصغير اسم المنتج */
+  .product-name {
+    font-size: 0.75rem !important;
+    min-height: 2.2em !important;
+  }
+
+  /* تصغير السعر والمخزون */
+  .product-price {
+    font-size: 0.85rem !important;
+  }
+  .product-stock {
+    font-size: 0.65rem !important;
+  }
+
+  /* تعديل المسافات داخل بطاقة المنتج */
+  .product-info {
+    padding: 8px !important;
+    gap: 4px !important;
+  }
+
+  /* تصغير الرقم الفريد (#) */
+  .product-id-badge {
+    font-size: 0.6rem !important;
+    padding: 2px 6px !important;
+    top: 6px !important;
+    right: 6px !important;
+  }
+}

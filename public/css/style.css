@@ -1122,3 +1122,57 @@ body {
     right: 6px !important;
   }
 }
+
+/* ============================================================
+   إصلاح جذري لشريط الكمية على الموبايل (تغيير الهيكل لعمودي)
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* جعل شريط الكمية عمودياً */
+  .qty-control {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 6px !important;
+    width: 100% !important;
+    padding: 0 8px !important;
+  }
+
+  /* وضع الأزرار (+ و -) والشريط في صف واحد فوق بعضهما */
+  .qty-slider {
+    width: 100% !important;
+    margin: 4px 0 !important;
+  }
+
+  /* إعادة ترتيب الأزرار والقيمة لتكون في صف أفقي */
+  .qty-control {
+    position: relative !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  .qty-slider {
+    order: 3 !important; /* الشريط في الأسفل */
+    flex: 1 1 100% !important; /* يأخذ العرض الكامل */
+  }
+
+  .qty-btn {
+    order: 1 !important;
+    margin: 0 4px !important;
+  }
+
+  .qty-value {
+    order: 2 !important;
+    margin: 0 4px !important;
+    min-width: 24px !important;
+  }
+
+  /* تصغير الأزرار قليلاً */
+  .qty-btn {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 1rem !important;
+  }
+}

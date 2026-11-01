@@ -228,7 +228,9 @@ function buildProductCard(p) {
 
   // ---------- Add to cart ----------
   addBtn.onclick = () => {
-    addToCart(p, +slider.value);
+    // جلب المنتج الصحيح بناءً على الـ id الخاص بالبطاقة
+    const currentProduct = state.products.find(prod => prod.id == p.id) || p;
+    addToCart(currentProduct, +slider.value);
     setQty(1);
   };
 
@@ -403,7 +405,9 @@ function renderProductModal(p) {
 
   // إضافة للسلة من النافذة
   addBtn.onclick = () => {
-    addToCart(p, +slider.value);
+    // جلب المنتج الصحيح بناءً على الـ id الخاص بالبطاقة
+    const currentProduct = state.products.find(prod => prod.id == p.id) || p;
+    addToCart(currentProduct, +slider.value);
     setQty(1);
   };
 

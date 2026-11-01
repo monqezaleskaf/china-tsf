@@ -45,19 +45,28 @@ function updateCartBadge() {
 }
 function addToCart(product, quantity) {
   const cart = loadCart();
-  const existing = cart.find(i => i.id === product.id);
+  
+  // تحويل الـ id إلى رقم لضمان المقارنة الصحيحة
+  const productId = Number(product.id);
+  
+  // البحث عن المنتج في السلة
+  const existing = cart.find(i => Number(i.id) === productId);
+  
   if (existing) {
+    // إذا كان موجوداً، نزيد الكمية فقط
     existing.quantity = Math.min(existing.quantity + quantity, product.stock);
   } else {
+    // إذا لم يكن موجوداً، نضيفه كمنتج جديد مع بياناته الصحيحة
     cart.push({
-      id: product.id,
+      id: productId,
       name: product.name,
-      price: product.price,
-      image_url: product.image_url,
-      stock: product.stock,
+      price: Number(product.price),
+      image_url: product.image_url || '',
+      stock: Number(product.stock),
       quantity: quantity
     });
   }
+  
   saveCart(cart);
   showToast(`✅ تمت إضافة ${quantity} × ${product.name} للسلة`);
 }

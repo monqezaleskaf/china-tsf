@@ -1,5 +1,6 @@
 ﻿export async function onRequestGet(context) {
-  const { env, request } = context;
+  const env = context.env;
+  const request = context.request;
   try {
     const url = new URL(request.url);
     const id = url.searchParams.get('id');

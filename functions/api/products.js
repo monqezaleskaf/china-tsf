@@ -23,7 +23,7 @@
     }
 
     // قائمة المنتجات مع فلاتر
-    let sql = 'SELECT id, name, brand, category, price, stock, image_url, description FROM products WHERE 1=1';
+    let sql = 'SELECT id, name, brand, category, price, stock, image_url, description FROM products WHERE is_hidden = 0';
     const params = [];
 
     if (brand) { sql += ' AND brand = ?'; params.push(brand); }
@@ -35,8 +35,8 @@
     const stmt = env.DB.prepare(sql);
     const result = params.length ? await stmt.bind(...params).all() : await stmt.all();
 
-    const brandsStmt = env.DB.prepare('SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL ORDER BY brand');
-    const categoriesStmt = env.DB.prepare('SELECT DISTINCT category FROM products WHERE category IS NOT NULL ORDER BY category');
+    const brandsStmt = env.DB.prepare('SELECT DISTINCT brand FROM products WHERE brand IS NOT NULL AND is_hidden = 0 ORDER BY brand');
+    const categoriesStmt = env.DB.prepare('SELECT DISTINCT category FROM products WHERE category IS NOT NULL AND is_hidden = 0 ORDER BY category');
 
     const [brandsRes, categoriesRes] = await Promise.all([brandsStmt.all(), categoriesStmt.all()]);
 

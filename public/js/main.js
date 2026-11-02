@@ -391,6 +391,34 @@ function renderProductModal(p) {
   };
   img.src = `/images/products/${p.id}.png`;
 
+  // --- إضافة تكبير/تصغير الصورة بعجلة الماوس (آمن) ---
+  try {
+    const imgWrap = document.querySelector('.pm-image-wrap');
+    if (imgWrap) {
+      let scale = 1;
+      // إزالة الحدث القديم إن وجد
+      imgWrap.onwheel = null;
+      imgWrap.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        if (e.deltaY < 0) scale = Math.min(3, scale + 0.1);
+        else scale = Math.max(1, scale - 0.1);
+        img.style.transform = `scale(${scale})`;
+        img.style.transition = 'transform 0.1s ease';
+      }, { passive: false });
+      
+      // إعادة تعيين الحجم عند إغلاق النافذة
+      const closeBtn = document.getElementById('closeProductModal');
+      if (closeBtn) {
+        const originalClose = closeBtn.onclick;
+        closeBtn.onclick = (e) => {
+          scale = 1;
+          img.style.transform = 'scale(1)';
+          if (originalClose) originalClose(e);
+        };
+      }
+    }
+  } catch(err) { console.log('خطأ في التكبير:', err); }
+
   // شريط الكمية
   const slider = document.getElementById('pmQtySlider');
   const qtyVal = document.getElementById('pmQtyVal');

@@ -1408,3 +1408,114 @@ body {
     font-size: 0.75rem !important;
   }
 }
+
+/* ============================================================
+   ميزة تكبير الصورة (Zoom) في بطاقات المنتجات
+   ============================================================ */
+
+/* 1. حاوية الصورة في البطاقة */
+.product-img-wrap {
+  overflow: hidden !important; /* إخفاء أي جزء يخرج عن الإطار */
+  position: relative;
+  cursor: zoom-in; /* تغيير شكل المؤشر ليدل على إمكانية التكبير */
+}
+
+/* 2. الصورة داخل البطاقة */
+.product-img-wrap img {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transform-origin: center center;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 3. تأثير التكبير عند تمرير الماوس على البطاقة */
+.product-card:hover .product-img-wrap img {
+  transform: scale(1.15) !important; /* تكبير بنسبة 15% */
+}
+
+/* 4. تحسين مظهر صورة المنتج داخل النافذة المنبثقة */
+.pm-image-wrap {
+  overflow: hidden !important;
+  cursor: zoom-in;
+}
+.pm-image-wrap img {
+  transition: transform 0.4s ease !important;
+}
+.pm-image-wrap:hover img {
+  transform: scale(1.1) !important; /* تكبير خفيف داخل النافذة */
+}
+
+/* 5. إضافة خلفية ناعمة خلف الصورة لتبدو أكثر وضوحاً */
+.product-img-wrap {
+  background: #f8fafc !important;
+}
+
+/* ============================================================
+   ضبط حاوية الصورة لتسمح بالتكبير داخل النافذة المنبثقة
+   ============================================================ */
+
+.pm-image-wrap {
+  overflow: hidden !important; /* إخفاء الأجزاء التي تخرج */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9fafb;
+  border-radius: 8px;
+  min-height: 250px;
+}
+
+.pm-image-wrap img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.1s ease;
+  transform-origin: center center;
+  will-change: transform; /* لتحسين أداء التكبير */
+}
+
+/* منع تحديد النص أثناء التكبير */
+.pm-image-wrap {
+  user-select: none;
+}
+
+/* ============================================================
+   تأثير تكبير الصورة عند تمرير الماوس (Hover Zoom)
+   ============================================================ */
+
+/* 1. الحاوية: إخفاء أي جزء يخرج عن الحدود */
+.product-img-wrap {
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+/* 2. الصورة: تجهيزها للحركة */
+.product-img-wrap img {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transform: scale(1) !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+}
+
+/* 3. عند تمرير الماوس على البطاقة: تكبير الصورة بنسبة 12% */
+.product-card:hover .product-img-wrap img {
+  transform: scale(1.12) !important;
+}
+
+/* 4. (اختياري) نفس التأثير داخل النافذة المنبثقة */
+.pm-image-wrap {
+  overflow: hidden !important;
+}
+.pm-image-wrap img {
+  transition: transform 0.4s ease !important;
+}
+.pm-image-wrap:hover img {
+  transform: scale(1.08) !important;
+}
+
+/* 5. تغيير شكل المؤشر ليدل على أن الصورة قابلة للتكبير */
+.product-img-wrap {
+  cursor: zoom-in !important;
+}

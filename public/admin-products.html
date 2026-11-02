@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة المنتجات | شركة المستقبل الأقوى</title>
+  <link rel="icon" type="image/png" href="/images/logo.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .admin-page { padding: 30px 0 60px; }
+    .product-admin-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
+    }
+    .product-admin-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .product-admin-img {
+      width: 60px; height: 60px;
+      border-radius: var(--radius-sm);
+      background: #f9fafb;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .product-admin-img img { width: 100%; height: 100%; object-fit: contain; }
+    .product-admin-info { flex: 1; }
+    .product-admin-info h4 { font-size: 0.95rem; margin-bottom: 4px; }
+    .product-admin-info .meta { font-size: 0.8rem; color: var(--text-muted); display: flex; gap: 12px; flex-wrap: wrap; }
+    
+    .btn-delete {
+      background: #fee2e2; color: #dc2626;
+      padding: 8px 16px; border-radius: var(--radius-sm);
+      font-weight: 700; font-size: 0.85rem;
+      transition: all 0.2s ease; flex-shrink: 0;
+    }
+    .btn-delete:hover { background: #dc2626; color: #fff; }
+    
+    .search-bar-admin {
+      width: 100%; padding: 12px 20px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
+      font-size: 1rem; font-family: inherit;
+      margin-bottom: 20px;
+      transition: all 0.2s ease;
+    }
+    .search-bar-admin:focus { outline: none; border-color: var(--primary); }
+    
+    #productsAdminList { max-height: 70vh; overflow-y: auto; padding: 4px; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/admin.html" class="brand">
+        <img src="/images/logo.png" alt="شعار" class="brand-logo">
+        <div class="brand-text">
+          <span class="ar">إدارة المنتجات</span>
+          <span class="en">Product Management</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a href="/admin.html" class="icon-btn" style="background: #fff; color: #0040C0; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-weight: 700;">
+          ⬅️ <span>العودة للطلبات</span>
+        </a>
+        <a href="/" class="icon-btn" style="background: #fff; color: #0040C0; border: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1); font-weight: 700;">
+          🏠 <span>المتجر</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOGIN -->
+  <div id="loginView" class="login-box" style="max-width: 400px; margin: 80px auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); text-align: center;">
+    <h2 style="color: var(--primary); margin-bottom: 20px;">🔒 الدخول للوحة الإدارة</h2>
+    <input type="password" id="passwordInput" placeholder="أدخل كلمة المرور" style="width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 8px; font-size: 1rem; margin-bottom: 12px; text-align: center; font-family: inherit;">
+    <button id="loginBtn" style="width: 100%; padding: 12px; background: var(--primary); color: #fff; border-radius: 8px; font-weight: 700; font-size: 1rem;">دخول</button>
+    <p id="loginError" style="color: var(--danger); margin-top: 10px; font-size: 0.9rem; display: none;"></p>
+  </div>
+
+  <!-- ADMIN CONTENT -->
+  <main id="adminView" class="container admin-page" style="display: none;">
+    <h1 style="color: var(--primary); margin-bottom: 20px; font-size: 1.5rem;">📦 إدارة المنتجات</h1>
+    <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem;">يمكنك البحث عن أي منتج وحذفه من قاعدة البيانات.</p>
+
+    <input type="text" id="searchAdmin" class="search-bar-admin" placeholder="🔍 ابحث عن منتج بالاسم أو الرقم...">
+
+    <div id="loading" class="loading">⏳ جاري تحميل المنتجات...</div>
+    <div id="emptyState" class="empty-state hidden">
+      <div class="emoji">📭</div>
+      <p>لا توجد منتجات تطابق بحثك</p>
+    </div>
+    <div id="productsAdminList"></div>
+  </main>
+
+  <script>
+    let adminPassword = sessionStorage.getItem('admin_pass') || '';
+    let allProducts = [];
+
+    const $ = (s) => document.querySelector(s);
+    const loginView = $('#loginView');
+    const adminView = $('#adminView');
+    const productsAdminList = $('#productsAdminList');
+    const loading = $('#loading');
+    const emptyState = $('#emptyState');
+
+    // ---------- LOGIN ----------
+    $('#loginBtn').onclick = tryLogin;
+    $('#passwordInput').onkeypress = (e) => { if (e.key === 'Enter') tryLogin(); };
+
+    async function tryLogin() {
+      const pass = $('#passwordInput').value;
+      if (!pass) return;
+      const errEl = $('#loginError');
+      errEl.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/products');
+        if (!res.ok) throw new Error('فشل الاتصال');
+        
+        adminPassword = pass;
+        sessionStorage.setItem('admin_pass', pass);
+        showAdmin();
+      } catch (e) {
+        errEl.textContent = 'كلمة المرور غير صحيحة أو حدث خطأ';
+        errEl.style.display = 'block';
+      }
+    }
+
+    function showAdmin() {
+      loginView.style.display = 'none';
+      adminView.style.display = 'block';
+      loadProducts();
+    }
+
+    // ---------- LOAD PRODUCTS ----------
+    async function loadProducts() {
+      loading.style.display = 'block';
+      try {
+        const res = await fetch('/api/products');
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error);
+        allProducts = data.products || [];
+        renderProductsList(allProducts);
+        loading.style.display = 'none';
+      } catch (e) {
+        loading.textContent = '❌ فشل تحميل المنتجات: ' + e.message;
+      }
+    }
+
+    // ---------- RENDER LIST ----------
+    function renderProductsList(products) {
+      productsAdminList.innerHTML = '';
+      if (products.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      products.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'product-admin-card';
+        card.innerHTML = `
+          <div class="product-admin-img">
+            <img src="/images/products/${p.id}.png" onerror="this.outerHTML='🛍️'">
+          </div>
+          <div class="product-admin-info">
+            <h4>#${p.id} — ${p.name}</h4>
+            <div class="meta">
+              <span>💰 $${Number(p.price).toFixed(2)}</span>
+              <span>📦 المخزون: ${p.stock}</span>
+              <span>🏷️ ${p.brand || 'أخرى'}</span>
+              <span>📂 ${p.category || 'عام'}</span>
+            </div>
+          </div>
+          <button class="btn-delete" data-id="${p.id}">🗑️ حذف</button>
+        `;
+        
+        // ربط زر الحذف
+        card.querySelector('.btn-delete').onclick = () => deleteProduct(p);
+        
+        productsAdminList.appendChild(card);
+      });
+    }
+
+    // ---------- SEARCH ----------
+    $('#searchAdmin').addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      if (!q) {
+        renderProductsList(allProducts);
+        return;
+      }
+      const filtered = allProducts.filter(p => 
+        p.name.toLowerCase().includes(q) || String(p.id).includes(q)
+      );
+      renderProductsList(filtered);
+    });
+
+    // ---------- DELETE PRODUCT ----------
+    async function deleteProduct(product) {
+      if (!confirm(`⚠️ هل أنت متأكد من حذف المنتج #${product.id} "${product.name}"؟\n\nهذا الإجراء لا يمكن التراجع عنه!`)) return;
+
+      try {
+        const res = await fetch('/api/delete-product', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Admin-Password': adminPassword
+          },
+          body: JSON.stringify({ product_id: product.id })
+        });
+        const data = await res.json();
+        if (!data.ok) throw new Error(data.error);
+        
+        alert('✅ تم حذف المنتج بنجاح');
+        loadProducts(); // إعادة التحميل
+      } catch (e) {
+        alert('❌ فشل الحذف: ' + e.message);
+      }
+    }
+
+    // ---------- INIT ----------
+    if (adminPassword) showAdmin();
+  </script>
+</body>
+</html>

@@ -1417,7 +1417,7 @@ body {
 .product-img-wrap {
   overflow: hidden !important; /* إخفاء أي جزء يخرج عن الإطار */
   position: relative;
-  cursor: zoom-in; /* تغيير شكل المؤشر ليدل على إمكانية التكبير */
+  cursor: pointer; /* تغيير شكل المؤشر ليدل على إمكانية التكبير */
 }
 
 /* 2. الصورة داخل البطاقة */
@@ -1437,7 +1437,7 @@ body {
 /* 4. تحسين مظهر صورة المنتج داخل النافذة المنبثقة */
 .pm-image-wrap {
   overflow: hidden !important;
-  cursor: zoom-in;
+  cursor: pointer;
 }
 .pm-image-wrap img {
   transition: transform 0.4s ease !important;
@@ -1517,5 +1517,5 @@ body {
 
 /* 5. تغيير شكل المؤشر ليدل على أن الصورة قابلة للتكبير */
 .product-img-wrap {
-  cursor: zoom-in !important;
+  cursor: pointer !important;
 }
